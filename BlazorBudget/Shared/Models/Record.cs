@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,7 +11,12 @@ namespace BlazorBudget.Shared.Models
     {
         public int RecordId { get; set; }
         public DateTime Date { get; set; } = DateTime.Now;
+
+        [Required]
         public string Name { get; set; } = null!;
+
+        [Required]
+        [Range(0.01, int.MaxValue, ErrorMessage = "Please enter a value bigger than {1}")]
         public decimal Value { get; set; } 
     }
 }

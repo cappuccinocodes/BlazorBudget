@@ -1,6 +1,5 @@
 using BlazorBudget.Server.Models;
 using BlazorBudget.Server.Repositories;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

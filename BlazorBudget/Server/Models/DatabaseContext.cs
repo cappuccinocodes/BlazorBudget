@@ -13,6 +13,7 @@ namespace BlazorBudget.Server.Models
         {
         }
         public virtual DbSet<Record> Records { get; set; } = null!;
+        public virtual DbSet<Category> Categories { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

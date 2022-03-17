@@ -1,0 +1,50 @@
+﻿@page "/category/add"
+@page "/category/edit/{CategoryId:int}"
+@using Microsoft.AspNetCore.Components
+@using BlazorBudget.Shared.Models
+
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+<h1>@Title Category</h1>
+<hr />
+<EditForm Model="@Category" OnValidSubmit="SaveCategory">
+    <DataAnnotationsValidator />
+    <div class="mb-3">
+        <label for="Date" class="form-label">Date</label>
+        <div class="col-md-4">
+            <InputDate class="form-control" @bind-Value="Category.Name" />
+        </div>
+        <ValidationMessage For="@(() => Category.Name)" />
+    </div>
+</EditForm>
+@code {
+    [Parameter]
+    public int CategoryId { get; set; }
+    protected string Title = "Add";
+    protected Category Category = new();
+    protected override async Task OnParametersSetAsync()
+    {
+        if (CategoryId != 0)
+        {
+            Title = "Edit";
+            Category = await Http.GetFromJsonAsync<Category>("api/Category/" + CategoryId);
+        }
+    }
+    protected async Task SaveCategory()
+    {
+        if (Category.CategoryId != 0)
+        {
+            await Http.PutAsJsonAsync("api/Category", Category);
+        }
+        else
+        {
+            await Http.PostAsJsonAsync("api/Category", Category);
+        }
+        Cancel();
+    }
+
+    public void Cancel()
+    {
+        NavigationManager.NavigateTo("/");
+    }
+}

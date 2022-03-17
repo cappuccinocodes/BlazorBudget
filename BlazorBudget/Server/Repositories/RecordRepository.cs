@@ -13,7 +13,7 @@ namespace BlazorBudget.Server.Repositories
         public void DeleteRecord(int id);
     }
 
-    public class RecordRepository: IRecordRepository
+    public class RecordRepository : IRecordRepository
     {
         readonly DatabaseContext _dbContext;
 
@@ -31,45 +31,41 @@ namespace BlazorBudget.Server.Repositories
 
         public void AddRecord(Record record)
         {
-           _dbContext.Records.Add(record);
-                _dbContext.SaveChanges();
-         
+            _dbContext.Records.Add(record);
+            _dbContext.SaveChanges();
+
         }
 
         public void UpdateRecordDetails(Record record)
         {
-          
-                _dbContext.Entry(record).State = EntityState.Modified;
-                _dbContext.SaveChanges();
-         
+
+            _dbContext.Entry(record).State = EntityState.Modified;
+            _dbContext.SaveChanges();
+
         }
 
         public Record GetRecordData(int id)
         {
-                Record? user = _dbContext.Records.Find(id);
-                if (user != null)
-                {
-                    return user;
-                }
-                else
-                {
-                    throw new ArgumentNullException();
-                }
-       
+            Record? user = _dbContext.Records.Find(id);
+            if (user != null)
+                return user;
+
+            throw new ArgumentNullException();
+
         }
         //To Delete the record of a particular user
         public void DeleteRecord(int id)
         {
-                Record? user = _dbContext.Records.Find(id);
-                if (user != null)
-                {
-                    _dbContext.Records.Remove(user);
-                    _dbContext.SaveChanges();
-                }
-                else
-                {
-                    throw new ArgumentNullException();
-                }
+            Record? user = _dbContext.Records.Find(id);
+            if (user != null)
+            {
+                _dbContext.Records.Remove(user);
+                _dbContext.SaveChanges();
+            }
+            else
+            {
+                throw new ArgumentNullException();
+            }
         }
     }
 }

@@ -22,11 +22,7 @@ namespace BlazorBudget.Server.Controllers
         public IActionResult Get(int id)
         {
             Record user = _recordRepository.GetRecordData(id);
-            if (user != null)
-            {
-                return Ok(user);
-            }
-            return NotFound();
+            return Ok(user);
         }
         [HttpPost]
         public void Post(Record user)

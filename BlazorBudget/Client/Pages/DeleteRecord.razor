@@ -38,10 +38,10 @@
     protected async Task RemoveRecord(int recordID)
     {
         await Http.DeleteAsync("api/Record/" + recordID);
-        NavigationManager.NavigateTo("/fetchRecordDetails");
+        NavigationManager.NavigateTo("/");
     }
     void Cancel()
     {
-        NavigationManager.NavigateTo("/fetchRecordDetails");
+        NavigationManager.NavigateTo("/");
     }
 }

@@ -7,7 +7,7 @@ namespace BlazorBudget.Server.Repositories
     public interface IRecordRepository
     {
         public List<Record> GetRecordDetails();
-        public void AddUser(Record record);
+        public void AddRecord(Record record);
         public void UpdateRecordDetails(Record record);
         public Record GetRecordData(int id);
         public void DeleteRecord(int id);
@@ -21,7 +21,7 @@ namespace BlazorBudget.Server.Repositories
             _dbContext = dbContext;
         }
         //To Get all user details
-        public List<Record> GetUserDetails()
+        public List<Record> GetRecordDetails()
         {
             try
             {
@@ -33,11 +33,11 @@ namespace BlazorBudget.Server.Repositories
             }
         }
         //To Add new user record
-        public void AddUser(Record record)
+        public void AddRecord(Record record)
         {
             try
             {
-                _dbContext.Records.Add(user);
+                _dbContext.Records.Add(record);
                 _dbContext.SaveChanges();
             }
             catch
@@ -46,11 +46,11 @@ namespace BlazorBudget.Server.Repositories
             }
         }
         //To Update the records of a particluar user
-        public void UpdateUserDetails(Record user)
+        public void UpdateRecordDetails(Record record)
         {
             try
             {
-                _dbContext.Entry(user).State = EntityState.Modified;
+                _dbContext.Entry(record).State = EntityState.Modified;
                 _dbContext.SaveChanges();
             }
             catch
@@ -59,7 +59,7 @@ namespace BlazorBudget.Server.Repositories
             }
         }
         //Get the details of a particular user
-        public Record GetUserData(int id)
+        public Record GetRecordData(int id)
         {
             try
             {
@@ -79,7 +79,7 @@ namespace BlazorBudget.Server.Repositories
             }
         }
         //To Delete the record of a particular user
-        public void DeleteUser(int id)
+        public void DeleteRecord(int id)
         {
             try
             {

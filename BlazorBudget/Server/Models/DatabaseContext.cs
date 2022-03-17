@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BlazorBudget.Server.Models
 {
-    public class DatabaseContext : DbContext
+    public partial class DatabaseContext : DbContext
     {
         public DatabaseContext()
         {
@@ -23,11 +23,11 @@ namespace BlazorBudget.Server.Models
                 entity.Property(e => e.Name)
                     .HasMaxLength(50)
                     .IsUnicode(false);
-                entity.Property(e => e.Date)
-                    .IsUnicode(false);
-                entity.Property(e => e.Value)
-                    .IsUnicode(false);
+                entity.Property(e => e.Date);
+                entity.Property(e => e.Value);
             });
+            OnModelCreatingPartial(modelBuilder);
         }
+        partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
 }

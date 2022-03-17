@@ -1,5 +1,5 @@
-using BlazorBudget.Server.Interfaces;
 using BlazorBudget.Server.Models;
+using BlazorBudget.Server.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,7 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<DatabaseContext>
 (options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-builder.Services.AddTransient<IRecord, UserManager<>>();
+builder.Services.AddTransient<IRecordRepository, RecordRepository>();
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 

@@ -1,0 +1,47 @@
+﻿@page "/record/delete/{recordId:int}"
+@using BlazorBudget.Shared.Models
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+<h2>Delete Record</h2>
+<br />
+<div class="form-group">
+    <h4>Do you want to delete this record?</h4>
+    <table class="table">
+        <tbody>
+        <tr>
+            <td>Date</td>
+            <td>@record.Date</td>
+        </tr>
+        <tr>
+            <td>Name</td>
+            <td>@record.Name</td>
+        </tr>
+        <tr>
+            <td>Value</td>
+            <td>@record.Value</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div class="form-group">
+    <input type="submit" value="Delete" @onclick="(async () => await RemoveRecord(record.RecordId))" class="btn btn-danger" />
+    <input type="submit" value="Cancel" @onclick="(() => Cancel())" class="btn btn-warning" />
+</div>
+@code {
+    [Parameter]
+    public int recordId { get; set; }
+    Record record = new Record();
+    protected override async Task OnInitializedAsync()
+    {
+        record = await Http.GetFromJsonAsync<Record>("/api/Record/" + Convert.ToInt32(recordId));
+    }
+    protected async Task RemoveRecord(int recordID)
+    {
+        await Http.DeleteAsync("api/Record/" + recordID);
+        NavigationManager.NavigateTo("/fetchRecordDetails");
+    }
+    void Cancel()
+    {
+        NavigationManager.NavigateTo("/fetchRecordDetails");
+    }
+}

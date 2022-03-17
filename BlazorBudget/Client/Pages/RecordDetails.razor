@@ -1,0 +1,100 @@
+﻿@page "/fetchRecordDetails"
+@using BlazorBudget.Shared.Models
+@inject HttpClient Http
+<h1>Record Data</h1>
+<p>Blazor CRUD operation</p>
+<div class="row">
+    <div class="col-md-6">
+        <a href='/record/add' class="btn btn-primary" role="button">
+            <i class="fas fa-record-plus"></i>
+            Add Record
+        </a>
+    </div>
+    <div class="input-group col">
+        <input type="text" class="form-control" placeholder="Search record by name"
+               @bind="SearchString" @bind:event="oninput" @onkeyup="FilterRecord" />
+        @if (SearchString.Length > 0)
+        {
+            <div class="input-group-append">
+                <button class="btn btn-danger" @onclick="ResetSearch">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        }
+    </div>
+</div>
+<br />
+@if (RecordList == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table table-striped align-middle table-bordered">
+        <thead class="table-success">
+            <tr>
+                <th>ID</th>
+                <th>Date</th>
+                <th>Name</th>
+                <th>Value</th>
+             </tr>
+        </thead>
+        <tbody>
+            @foreach (var record in RecordList)
+            {
+                <tr>
+                    <td>@record.RecordId</td>
+                    <td>@record.Date</td>
+                    <td>@record.Name</td>
+                    <td>@record.Value</td>
+                    <td>
+                        <a href='/record/edit/@record.RecordId' class="btn btn-outline-dark" role="button">
+                            Edit
+                        </a>
+                        <a href='/record/delete/@record.RecordId' class="btn btn-outline-danger" role="button">
+                            Delete
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+}
+@code {
+    protected List<Record> RecordList = new();
+    protected List<Record> SearchRecordData = new();
+    protected Record Record = new();
+    protected string SearchString { get; set; } = string.Empty;
+    protected override async Task OnInitializedAsync()
+    {
+        await GetRecord();
+    }
+    protected async Task GetRecord()
+    {
+        RecordList = await Http.GetFromJsonAsync<List<Record>>("api/Record");
+        SearchRecordData = RecordList;
+    }
+    protected void FilterRecord()
+    {
+        if (!string.IsNullOrEmpty(SearchString))
+        {
+            RecordList = SearchRecordData
+                .Where(x => x.Name.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) != -1)
+                .ToList();
+        }
+        else
+        {
+            RecordList = SearchRecordData;
+        }
+    }
+    protected void DeleteConfirm(int RecordId)
+    {
+        Record = RecordList.FirstOrDefault(x => x.RecordId == RecordId);
+    }
+    public void ResetSearch()
+    {
+        SearchString = string.Empty;
+        RecordList = SearchRecordData;
+    }
+}

@@ -29,7 +29,7 @@ namespace BlazorBudget.Server.Repositories
                     .ToList();
 
                 return rec;
-                
+            
         }
 
         public void AddRecord(Record record)
@@ -56,9 +56,9 @@ namespace BlazorBudget.Server.Repositories
 
         public Record GetRecordData(int id)
         {
-            Record? user = _dbContext.Records.Find(id);
-            if (user != null)
-                return user;
+            Record? record = _dbContext.Records.Find(id);
+            if (record != null)
+                return record;
 
             throw new ArgumentNullException();
 

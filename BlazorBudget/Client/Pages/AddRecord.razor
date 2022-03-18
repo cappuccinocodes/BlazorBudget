@@ -30,6 +30,18 @@
         </div>
         <ValidationMessage For="@(() => Record.Value)" />
     </div>
+    <div class="mb-3">
+        <label for="CategoryId" class="form-label">Category</label>
+        <div class="col-md-4">
+            <InputSelect class="form-control" @bind-Value="Record.CategoryId">
+                @foreach (var category in Categories)
+                {
+                    <option value="@category.CategoryId">@category.Name</option>
+                }
+            </InputSelect>
+        </div>
+        <ValidationMessage For="@(() => Record.Value)" />
+    </div>
     <div class="form-group">
         <button type="submit" class="btn btn-primary">Save</button>
         <button class="btn btn-light" @onclick="Cancel">Cancel</button>
@@ -40,6 +52,8 @@
     public int RecordId { get; set; }
     protected string Title = "Add";
     protected Record Record = new();
+    protected List<Category> Categories = new();
+
     protected override async Task OnParametersSetAsync()
     {
         if (RecordId != 0)
@@ -47,32 +61,22 @@
             Title = "Edit";
             Record = await Http.GetFromJsonAsync<Record>("api/Record/" + RecordId);
         }
+
+        Categories = await Http.GetFromJsonAsync<List<Category>>("api/Category");
     }
+
     protected async Task SaveRecord()
     {
-        Record.Category = new Category {
-            Name = "lol",
-            Records = new List<Record>()
-           
-        };
-        Record.CategoryId = 1;
 
-        try
+        if (Record.RecordId != 0)
         {
-            if (Record.RecordId != 0)
-            {
-                await Http.PutAsJsonAsync("api/Record", Record);
-            }
-            else
-            {
-                await Http.PostAsJsonAsync("api/Record", Record);
-            }
+            await Http.PutAsJsonAsync("api/Record", Record);
         }
-        catch
+        else
         {
-            throw;
+            await Http.PostAsJsonAsync("api/Record", Record);
         }
-        
+
         Cancel();
     }
 

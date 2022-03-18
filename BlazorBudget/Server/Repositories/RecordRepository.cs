@@ -34,9 +34,16 @@ namespace BlazorBudget.Server.Repositories
 
         public void AddRecord(Record record)
         {
-            _dbContext.Records.Add(record);
-            _dbContext.SaveChanges();
+            try
+            {
+                _dbContext.Records.Add(record);
+                _dbContext.SaveChanges();
+            }
+            catch (Exception ex)
+            {
 
+            }
+            
         }
 
         public void UpdateRecordDetails(Record record)

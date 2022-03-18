@@ -36,6 +36,8 @@
     }
     protected async Task SaveCategory()
     {
+        Category.Records = new List<Record>();
+
         if (Category.CategoryId != 0)
         {
             await Http.PutAsJsonAsync("api/Category", Category);

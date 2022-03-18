@@ -50,7 +50,13 @@
     }
     protected async Task SaveRecord()
     {
+        Record.Category = new Category {
+            Name = "lol",
+            Records = new List<Record>()
+           
+        };
         Record.CategoryId = 1;
+
         try
         {
             if (Record.RecordId != 0)

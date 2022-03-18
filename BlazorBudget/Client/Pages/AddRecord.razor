@@ -50,14 +50,23 @@
     }
     protected async Task SaveRecord()
     {
-        if (Record.RecordId != 0)
+        Record.CategoryId = 1;
+        try
         {
-            await Http.PutAsJsonAsync("api/Record", Record);
+            if (Record.RecordId != 0)
+            {
+                await Http.PutAsJsonAsync("api/Record", Record);
+            }
+            else
+            {
+                await Http.PostAsJsonAsync("api/Record", Record);
+            }
         }
-        else
+        catch
         {
-            await Http.PostAsJsonAsync("api/Record", Record);
+            throw;
         }
+        
         Cancel();
     }
 

@@ -7,12 +7,11 @@ using System.Threading.Tasks;
 
 namespace BlazorBudget.Shared.Models
 {
-    public class Record
+    public class RecordToAdd
     {
         public int RecordId { get; set; }
         public DateTime Date { get; set; } = DateTime.Now;
         public int CategoryId { get; set; }
-        public Category Category { get; set; }
 
         [Required]
         public string Name { get; set; } = null!;

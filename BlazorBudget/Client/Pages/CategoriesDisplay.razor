@@ -1,0 +1,88 @@
+﻿@page "/categories"
+@using BlazorBudget.Shared.Models
+@inject HttpClient Http
+
+<div class="row">
+    <div class="col-md-6">
+        <a href='/categories/add' class="btn btn-primary" role="button">
+            <i class="fas fa-category-plus"></i>
+            Add Category
+        </a>
+    </div>
+    <div class="input-group col">
+        <input type="text" class="form-control" placeholder="Search category by name"
+               @bind="SearchString" @bind:event="oninput" @onkeyup="FilterCategory" />
+        @if (SearchString.Length > 0)
+        {
+            <div class="input-group-append">
+                <button class="btn btn-danger" @onclick="ResetSearch">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        }
+    </div>
+</div>
+<br />
+
+<table class="table table-striped align-middle table-bordered">
+    <thead class="table-success">
+    <tr>
+        <th>Name</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var category in CategoryList)
+    {
+        <tr>
+            <td>@category.Name</td>
+            <td>
+                <a href='/category/edit/@category.CategoryId' class="btn btn-outline-dark" role="button">
+                    Edit
+                </a>
+                <a href='/category/delete/@category.CategoryId' class="btn btn-outline-danger" role="button">
+                    Delete
+                </a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+@code {
+    protected List<Category> CategoryList = new();
+    protected List<Category> SearchCategoryData = new();
+    protected Category Category = new();
+    protected string SearchString { get; set; } = string.Empty;
+    protected override async Task OnInitializedAsync()
+    {
+        await GetCategory();
+    }
+    protected async Task GetCategory()
+    {
+        CategoryList = await Http.GetFromJsonAsync<List<Category>>("api/Category");
+        SearchCategoryData = CategoryList;
+    }
+    protected void FilterCategory()
+    {
+        if (!string.IsNullOrEmpty(SearchString))
+        {
+            CategoryList = SearchCategoryData
+                .Where(x => x.Name.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) != -1)
+                .ToList();
+           }
+        else
+        {
+            CategoryList = SearchCategoryData;
+        }
+    }
+    protected void DeleteConfirm(int CategoryId)
+    {
+        Category = CategoryList.FirstOrDefault(x => x.CategoryId == CategoryId);
+    }
+    public void ResetSearch()
+    {
+        SearchString = string.Empty;
+        CategoryList = SearchCategoryData;
+    }
+}

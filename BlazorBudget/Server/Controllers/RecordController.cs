@@ -21,18 +21,18 @@ namespace BlazorBudget.Server.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            Record user = _recordRepository.GetRecordData(id);
-            return Ok(user);
+            Record record = _recordRepository.GetRecordData(id);
+            return Ok(record);
         }
         [HttpPost]
-        public void Post(Record user)
+        public void Post(Record record)
         {
-            _recordRepository.AddRecord(user);
+            _recordRepository.AddRecord(record);
         }
         [HttpPut]
-        public void Put(Record user)
+        public void Put(Record record)
         {
-            _recordRepository.UpdateRecordDetails(user);
+            _recordRepository.UpdateRecordDetails(record);
         }
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)

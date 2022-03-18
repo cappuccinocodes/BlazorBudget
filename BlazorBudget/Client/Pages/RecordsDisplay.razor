@@ -31,6 +31,8 @@
         <th>Date</th>
         <th>Name</th>
         <th>Value</th>
+        <th>Category</th>
+        <th></th>
     </tr>
     </thead>
     <tbody>
@@ -41,6 +43,7 @@
             <td>@record.Date</td>
             <td>@record.Name</td>
             <td>@record.Value.ToString("0.00")</td>
+            <td>@record.Category.Name</td>
             <td>
                 <a href='/record/edit/@record.RecordId' class="btn btn-outline-dark" role="button">
                     Edit

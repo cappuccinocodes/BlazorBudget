@@ -9,8 +9,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<DatabaseContext>
 (options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 builder.Services.AddTransient<IRecordRepository, RecordRepository>();
-builder.Services.AddControllersWithViews();
+builder.Services.AddTransient<ICategoryRepository, CategoryRepository>();
+
+builder.Services.AddControllersWithViews().AddNewtonsoftJson(options =>
+    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 builder.Services.AddRazorPages();
 
 var app = builder.Build();

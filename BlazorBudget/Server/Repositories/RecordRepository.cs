@@ -24,9 +24,12 @@ namespace BlazorBudget.Server.Repositories
 
         public List<Record> GetRecordDetails()
         {
+                var rec = _dbContext.Records
+                    .Include(x => x.Category)
+                    .ToList();
 
-            return _dbContext.Records.ToList();
-
+                return rec;
+                
         }
 
         public void AddRecord(Record record)

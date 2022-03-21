@@ -7,13 +7,17 @@ using System.Threading.Tasks;
 
 namespace BlazorBudget.Shared.Models
 {
-    public class Category
+    public class RecordToAdd
     {
+        public int RecordId { get; set; }
+        public DateTime Date { get; set; } = DateTime.Now;
         public int CategoryId { get; set; }
-        
+
         [Required]
         public string Name { get; set; } = null!;
 
-        public IEnumerable<Record> Records { get; set; } 
+        [Required]
+        [Range(0.01, int.MaxValue, ErrorMessage = "Please enter a value bigger than {1}")]
+        public decimal Value { get; set; } 
     }
 }

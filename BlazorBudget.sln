@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorBudget.Server", "BlazorBudget\Server\BlazorBudget.Server.csproj", "{0E087F51-2E9A-4304-A1F1-F4FA7C872DFC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorBudget.Server", "BlazorBudget\Server\BlazorBudget.Server.csproj", "{0E087F51-2E9A-4304-A1F1-F4FA7C872DFC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorBudget.Client", "BlazorBudget\Client\BlazorBudget.Client.csproj", "{45DD4B1C-588F-4137-8A48-550CF4EEF157}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorBudget.Client", "BlazorBudget\Client\BlazorBudget.Client.csproj", "{45DD4B1C-588F-4137-8A48-550CF4EEF157}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorBudget.Shared", "BlazorBudget\Shared\BlazorBudget.Shared.csproj", "{1B74517C-5B17-4BB1-BB59-03633F43DE60}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorBudget.Shared", "BlazorBudget\Shared\BlazorBudget.Shared.csproj", "{1B74517C-5B17-4BB1-BB59-03633F43DE60}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

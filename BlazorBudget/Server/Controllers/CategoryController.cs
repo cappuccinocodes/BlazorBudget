@@ -25,10 +25,22 @@ namespace BlazorBudget.Server.Controllers
             return Ok(user);
         }
         [HttpPost]
-        public void Post(Category category)
+        public IActionResult Post(Category category)
         {
-            _categoryRepository.AddCategory(category);
+            var categories = _categoryRepository.GetCategoryDetails().ToList();
+
+            if (categories.Any(x => x.Name == category.Name))
+            {
+                ModelState.AddModelError(nameof(category.Name), "This category already exists");
+                return BadRequest(ModelState);
+            }
+            else
+            {
+                _categoryRepository.AddCategory(category);
+                return Ok(ModelState);
+            }
         }
+
         [HttpPut]
         public void Put(Category category)
         {

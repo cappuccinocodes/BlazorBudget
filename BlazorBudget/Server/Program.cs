@@ -1,5 +1,6 @@
 using BlazorBudget.Server.Models;
 using BlazorBudget.Server.Repositories;
+using BlazorBudget.Shared.Models;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +13,8 @@ builder.Services.AddDbContext<DatabaseContext>
 
 builder.Services.AddTransient<IRecordRepository, RecordRepository>();
 builder.Services.AddTransient<ICategoryRepository, CategoryRepository>();
+builder.Services.AddTransient<IValidateCategory, ValidateCategory>();
+builder.Services.AddHttpClient<ValidateCategory>();
 
 builder.Services.AddControllersWithViews().AddNewtonsoftJson(options =>
     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);

@@ -71,13 +71,13 @@
 @code {
     Chart<decimal> barChart;
 
-    //protected override async Task OnAfterRenderAsync( bool firstRender )
-    //{
-    //    if ( firstRender )
-    //    {
-    //        await HandleRedraw();
-    //    }
-    //}
+    protected override async Task OnAfterRenderAsync( bool firstRender )
+    {
+        if ( firstRender )
+        {
+            await HandleRedraw();
+        }
+    }
 
     async Task HandleRedraw()
     {
@@ -119,7 +119,6 @@
         SearchRecordData = RecordList;
         ValuesList = RecordList.Select(x => x.Value).ToList();
         GetNamesList = RecordList.Select(x => x.Name).ToArray();
-
         Count = RecordList.Sum(x => x.Value);
     }
     protected void FilterRecord()

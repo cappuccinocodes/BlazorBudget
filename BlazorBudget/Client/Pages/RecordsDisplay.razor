@@ -1,5 +1,6 @@
 ﻿@page "/"
 @using BlazorBudget.Shared.Models
+@using Blazorise.Charts
 @inject HttpClient Http
 
 <div class="row">
@@ -63,20 +64,62 @@
     </tbody>
 </table>
 
+<Button Color="Color.Primary" Clicked="@(async () => await HandleRedraw())">Redraw</Button>
+
+<Chart @ref="barChart" Type="ChartType.Bar" TItem="decimal" />
+
 @code {
+    Chart<decimal> barChart;
+
+    //protected override async Task OnAfterRenderAsync( bool firstRender )
+    //{
+    //    if ( firstRender )
+    //    {
+    //        await HandleRedraw();
+    //    }
+    //}
+
+    async Task HandleRedraw()
+    {
+        await barChart.Clear();
+
+        await barChart.AddLabelsDatasetsAndUpdate( GetNamesList, GetChartDataset() );
+    }
+
+    BarChartDataset<decimal> GetChartDataset()
+    {
+        return new BarChartDataset<decimal>
+        {
+            Label = "Expenses",
+            Data = ValuesList,
+            BackgroundColor = backgroundColors,
+            BorderColor = borderColors
+        };
+    }
+
+    List<string> backgroundColors = new List<string> { ChartColor.FromRgba( 255, 99, 132, 0.2f ), ChartColor.FromRgba( 54, 162, 235, 0.2f ), ChartColor.FromRgba( 255, 206, 86, 0.2f ), ChartColor.FromRgba( 75, 192, 192, 0.2f ), ChartColor.FromRgba( 153, 102, 255, 0.2f ), ChartColor.FromRgba( 255, 159, 64, 0.2f ) };
+    List<string> borderColors = new List<string> { ChartColor.FromRgba( 255, 99, 132, 1f ), ChartColor.FromRgba( 54, 162, 235, 1f ), ChartColor.FromRgba( 255, 206, 86, 1f ), ChartColor.FromRgba( 75, 192, 192, 1f ), ChartColor.FromRgba( 153, 102, 255, 1f ), ChartColor.FromRgba( 255, 159, 64, 1f ) };
+
     protected List<Record> RecordList = new();
+    List<decimal> ValuesList = new();
+    string[] GetNamesList = {};
     protected List<Record> SearchRecordData = new();
     protected Record Record = new();
     protected string SearchString { get; set; } = string.Empty;
     protected decimal Count { get; set; }
+
     protected override async Task OnInitializedAsync()
     {
         await GetRecord();
+        await HandleRedraw();
     }
     protected async Task GetRecord()
     {
         RecordList = await Http.GetFromJsonAsync<List<Record>>("api/Record");
         SearchRecordData = RecordList;
+        ValuesList = RecordList.Select(x => x.Value).ToList();
+        GetNamesList = RecordList.Select(x => x.Name).ToArray();
+
         Count = RecordList.Sum(x => x.Value);
     }
     protected void FilterRecord()
